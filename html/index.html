@@ -65,7 +65,7 @@
 
 			#noBtn {
 				position: absolute;
-				transition: ease-in 0.5s;
+				transition: all 0.5s ease-in;
 			}
 
 			.popup {
@@ -125,31 +125,41 @@
 				const yesBtn = document.getElementById('yesBtn')
 				const confirmBtn = document.getElementById('confirmBtn')
 
+				// 안준다 버튼 호버 시
 				noBtn.addEventListener('mouseover', function () {
+					// 맨 처음인 경우 (하단 코드 실행 후 absolute 되기 때문에 - css값은 포함 안됨 )
+					if (noBtn.style.position !== 'absolute') {
+						const rect = noBtn.getBoundingClientRect()
+						noBtn.style.position = 'absolute'
+						noBtn.style.left = rect.left + 'px'
+						noBtn.style.top = rect.top + 'px'
+					}
+
 					const x = Math.random() * (window.innerWidth - noBtn.offsetWidth)
 					const y = Math.random() * (window.innerHeight - noBtn.offsetHeight)
 					noBtn.style.left = x + 'px'
 					noBtn.style.top = y + 'px'
 				})
 
-				// const pop = document.querySelectorAll('.popup')
 				const copyPop = document.getElementsByClassName('copy-pop')[0]
 				const compPop = document.getElementsByClassName('comp-pop')[0]
 
-				// pop.style.display = 'none'
 				copyPop.style.display = 'none'
 				compPop.style.display = 'none'
 
+				// 준다 버튼 클릭 시
 				yesBtn.addEventListener('click', function () {
 					copyPop.style.display = 'flex'
 				})
 
+				// 계좌 클릭 시
 				document.getElementsByClassName('account')[0].addEventListener('click', function (e) {
 					navigator.clipboard.writeText('토스뱅크 1000-2867-8530')
 					copyPop.style.display = 'none'
 					compPop.style.display = 'flex'
 				})
 
+				// 처음으로 버튼 클릭 시
 				confirmBtn.addEventListener('click', function () {
 					// compPop.style.display = 'none'
 					window.location.reload()

@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="ko">
+	<head>
+		<title>Document</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<style>
+			html,
+			body {
+				margin: 0;
+				padding: 0;
+				overflow: hidden;
+			}
+
+			#wrap {
+				width: 100%;
+				height: 100vh;
+			}
+
+			#container {
+				width: 100%;
+				height: 100%;
+				/* background: #3e7a2f; */
+			}
+
+			.content {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: center;
+				height: 100%;
+				margin: 0 auto;
+			}
+
+			.que {
+				text-align: center;
+				font-size: 24px;
+			}
+
+			.ans {
+				display: flex;
+				justify-content: center;
+				margin-top: 50px;
+			}
+
+			.btn-set {
+				min-width: 208px;
+			}
+
+			button {
+				cursor: pointer;
+				width: 100px;
+				height: 40px;
+				border: none;
+				border-radius: 8px;
+				font-size: 16px;
+			}
+
+			button:hover {
+				background: rgb(206, 206, 206);
+			}
+
+			button + button {
+				margin-left: 8px;
+			}
+
+			#noBtn {
+				position: absolute;
+				transition: all 0.5s ease-in;
+			}
+
+			.popup {
+				z-index: 999;
+				position: fixed;
+				top: 50%;
+				left: 50%;
+
+				width: 500px;
+				min-height: 150px;
+				transform: translate(-50%, -50%);
+				padding: 40px 40px;
+				border-radius: 12px;
+				background: #fff;
+				box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+			}
+			.pop-content {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				gap: 30px;
+				width: 100%;
+			}
+			.pop-body {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: center;
+				height: 100%;
+			}
+
+			.pop-body .tit {
+				font-size: 18px;
+			}
+
+			.account {
+				cursor: pointer;
+				height: 26px;
+				margin-top: 24px;
+			}
+			.account:hover {
+				/* opacity: 0.6; */
+				font-size: 18px;
+			}
+
+			.desc {
+				margin-top: 8px;
+				font-size: 14px;
+			}
+
+			.pop-footer {
+			}
+		</style>
+		<script>
+			document.addEventListener('DOMContentLoaded', function () {
+				const noBtn = document.getElementById('noBtn')
+				const yesBtn = document.getElementById('yesBtn')
+				const confirmBtn = document.getElementById('confirmBtn')
+
+				// 안준다 버튼 호버 시
+				noBtn.addEventListener('mouseover', function () {
+					// 맨 처음인 경우 (하단 코드 실행 후 absolute 되기 때문에 - css값은 포함 안됨 )
+					if (noBtn.style.position !== 'absolute') {
+						const rect = noBtn.getBoundingClientRect()
+						noBtn.style.position = 'absolute'
+						noBtn.style.left = rect.left + 'px'
+						noBtn.style.top = rect.top + 'px'
+					}
+
+					const x = Math.random() * (window.innerWidth - noBtn.offsetWidth)
+					const y = Math.random() * (window.innerHeight - noBtn.offsetHeight)
+					noBtn.style.left = x + 'px'
+					noBtn.style.top = y + 'px'
+
+					;[('mouseover', 'touchstart', 'click')].forEach((event) => {
+						noBtn.addEventListener(event, moveButton)
+					})
+				})
+
+				const copyPop = document.getElementsByClassName('copy-pop')[0]
+				const compPop = document.getElementsByClassName('comp-pop')[0]
+
+				copyPop.style.display = 'none'
+				compPop.style.display = 'none'
+
+				// 준다 버튼 클릭 시
+				yesBtn.addEventListener('click', function () {
+					copyPop.style.display = 'flex'
+				})
+
+				// 계좌 클릭 시
+				document.getElementsByClassName('account')[0].addEventListener('click', function (e) {
+					navigator.clipboard.writeText('토스뱅크 1000-2867-8530')
+					copyPop.style.display = 'none'
+					compPop.style.display = 'flex'
+				})
+
+				// 처음으로 버튼 클릭 시
+				confirmBtn.addEventListener('click', function () {
+					// compPop.style.display = 'none'
+					window.location.reload()
+				})
+			})
+		</script>
+	</head>
+	<body>
+		<div id="wrap">
+			<!-- <div id="header">
+				<div class="header-wrap">
+					<div class="gnb"></div>
+					<div class="nav"></div>
+					<div class="util-set"></div>
+				</div>
+			</div> -->
+			<div id="container">
+				<div class="content">
+					<div class="que">용돈 주기</div>
+					<div class="ans">
+						<div class="btn-set">
+							<button id="yesBtn" onclick="">준다</button>
+							<button id="noBtn">안준다</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- <div id="footer">
+				<div class="footer-wrap">
+					<div class="logo"></div>
+					<div class="footer-menu"></div>
+				</div>
+			</div> -->
+
+			<div class="popup copy-pop">
+				<div class="pop-content">
+					<div class="pop-body">
+						<div class="tit">👇계좌 번호를 클릭해 주세요👇</div>
+						<span class="account">토스뱅크 1000-2867-8530</span>
+					</div>
+				</div>
+			</div>
+
+			<div class="popup comp-pop">
+				<div class="pop-content">
+					<div class="pop-body">
+						<div class="tit">🩷 계좌 번호가 복사 되었습니다 🩷</div>
+						<span class="desc"> 복사된 계좌로 용돈을 보내주세용</span>
+					</div>
+					<div class="pop-footer">
+						<button id="confirmBtn">처음으로</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

@@ -20,7 +20,6 @@
 			#container {
 				width: 100%;
 				height: 100%;
-				/* background: #3e7a2f; */
 			}
 
 			.content {
@@ -111,7 +110,6 @@
 				margin-top: 24px;
 			}
 			.account:hover {
-				/* opacity: 0.6; */
 				font-size: 18px;
 			}
 
@@ -121,9 +119,6 @@
 				text-align: center;
 				font-size: 14px;
 			}
-
-			.pop-footer {
-			}
 		</style>
 		<script>
 			document.addEventListener('DOMContentLoaded', function () {
@@ -131,8 +126,7 @@
 				const yesBtn = document.getElementById('yesBtn')
 				const confirmBtn = document.getElementById('confirmBtn')
 
-				// 안준다 버튼 호버 시
-				noBtn.addEventListener('mouseover', function () {
+				function moveButton() {
 					// 맨 처음인 경우 (하단 코드 실행 후 absolute 되기 때문에 - css값은 포함 안됨 )
 					if (noBtn.style.position !== 'absolute') {
 						const rect = noBtn.getBoundingClientRect()
@@ -145,9 +139,15 @@
 					const y = Math.random() * (window.innerHeight - noBtn.offsetHeight)
 					noBtn.style.left = x + 'px'
 					noBtn.style.top = y + 'px'
-					;[('mouseover', 'touchstart', 'click')].forEach((event) => {
-						noBtn.addEventListener(event, moveButton)
-					})
+				}
+
+				// PC
+				noBtn.addEventListener('mouseover', moveButton)
+
+				// 모바일
+				noBtn.addEventListener('touchstart', function (e) {
+					e.preventDefault()
+					moveButton()
 				})
 
 				const copyPop = document.getElementsByClassName('copy-pop')[0]
